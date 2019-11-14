@@ -6,9 +6,9 @@ import * as cors from 'cors';
 import { Sequelize } from 'sequelize/types';
 import authRouter from './routes/auth';
 import productRouter from './routes/product';
+import categoryRouter from './routes/category';
 import logger from './logger';
-import User from './models/User';
-import Product from './models/Product';
+import { initData } from './dummy';
 
 
 const stopServer = async (server: http.Server, sequelize: Sequelize, signal?: string) => {
@@ -27,6 +27,7 @@ async function runServer() {
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
+  app.use('/api/categories', categoryRouter);  
   app.get('/uploads/:fileName', (req, res) => {
     const fileName = req.params.fileName
     console.log(fileName)
@@ -43,19 +44,10 @@ async function runServer() {
   try {
     await sequelize.authenticate();
     await sequelize.sync({
-      force: true
+      // force: true
     });
-    const user = await User.create({
-      email: 'test@test.com',
-      password: 'test123'
-    });
-    Product.create({
-      userId: user.id,
-      category: 0,
-      title: 'TEST Product',
-      price: 1000,
-      image: '/uploads/sample-product.jpeg'
-    })
+    // Save dummy data 
+    // await initData();
   } catch (e) {
     stopServer(server, sequelize);
     throw e;

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import User from '../models/User';
+import { User } from '../models/User';
 import config from '../config';
 import * as jwt from 'jwt-simple';
 
