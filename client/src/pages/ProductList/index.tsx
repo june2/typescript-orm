@@ -4,6 +4,7 @@ import { PAGE_PATHS, STORES } from '~constants';
 import { inject, observer } from 'mobx-react';
 import ProductsStore from '~stores/product/ProductStore';
 import CategoryStore from '~stores/category/CategoryStore';
+import FilterStore from '~stores/filter/FilterStore';
 import Footer from '~components/Footer';
 import FixedTopBar from '~components/FixedTopBar';
 import Product from '~pages/ProductList/Product';
@@ -11,13 +12,14 @@ import Product from '~pages/ProductList/Product';
 interface InjectedProps {
   [STORES.PRODUCTS_STORE]: ProductsStore;
   [STORES.CATEGORIES_STORE]: CategoryStore;
+  [STORES.FILTERS_STORE]: FilterStore;
 }
 
 interface State {
   title: string;
 }
 
-@inject(STORES.PRODUCTS_STORE, STORES.CATEGORIES_STORE)
+@inject(STORES.PRODUCTS_STORE, STORES.CATEGORIES_STORE, STORES.FILTERS_STORE)
 @observer
 class ProductList extends Component<InjectedProps & RouteComponentProps & State> {
 
@@ -32,11 +34,14 @@ class ProductList extends Component<InjectedProps & RouteComponentProps & State>
   getAll(): void {
     this.setState({ title: '중고 거래 제품' });
     this.props[STORES.PRODUCTS_STORE].getAllProducts();
+    this.props[STORES.FILTERS_STORE].setIsVisible(false);
   }
 
   getAllByCategory(categoryId: number, category: string): void {
     this.setState({ title: `중고 ${category} 목록` });
     this.props[STORES.PRODUCTS_STORE].getProductsByCategory(categoryId);
+    this.props[STORES.FILTERS_STORE].getFilterByCategory(categoryId);
+    this.props[STORES.FILTERS_STORE].setIsVisible(true);
   }
 
   render() {

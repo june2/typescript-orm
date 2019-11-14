@@ -11,7 +11,7 @@ export interface Filter {
   readonly detail: string;
 }
 
-export interface FilterDetail {  
+export interface FilterDetail {
   readonly detail: string;
 }
 
@@ -26,6 +26,10 @@ export type FilterDto = {
 class FilterService {
 
   constructor(private authStore: AuthStore) {
+  }
+
+  async getByCategoryId(categoryId: number): Promise<ApiResponse<FilterDto[]>> {
+    return axios.get(`${API_HOST}/filters/${categoryId}`);
   }
 
 }

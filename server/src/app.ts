@@ -7,9 +7,9 @@ import { Sequelize } from 'sequelize/types';
 import authRouter from './routes/auth';
 import productRouter from './routes/product';
 import categoryRouter from './routes/category';
+import filterRouter from './routes/filter';
 import logger from './logger';
 import { initData } from './dummy';
-
 
 const stopServer = async (server: http.Server, sequelize: Sequelize, signal?: string) => {
   logger.info(`Stopping server with signal: ${signal}`);
@@ -28,6 +28,7 @@ async function runServer() {
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
   app.use('/api/categories', categoryRouter);  
+  app.use('/api/filters', filterRouter); 
   app.get('/uploads/:fileName', (req, res) => {
     const fileName = req.params.fileName
     console.log(fileName)
