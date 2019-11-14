@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ApiResponse } from '~services/types';
+import { API_HOST } from '~constants';
 
 export type LoginResponseDto = {
   token: string;
@@ -16,8 +17,6 @@ export type AuthResponseDto = {
   email: string;
   password: string;
 }
-
-const API_HOST = process.env.API_HOST || 'http://localhost:5000/api';
 
 class AuthService {
   async login(body: LoginSignupRequestDto): Promise<ApiResponse<LoginResponseDto>> {

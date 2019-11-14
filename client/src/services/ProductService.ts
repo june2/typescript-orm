@@ -1,11 +1,14 @@
 import axios from 'axios';
+import { API_HOST } from '~constants';
 import { ApiResponse } from '~services/types';
+import { Category } from '~services/CategoryService';
+import { Option } from '~services/OptionService';
 import AuthStore from '~stores/auth/AuthStore';
 
 export type ProductRegistrationDto = {
   userId?: string;
   image: File;
-  category: number;
+  categoryId: number;
   title: string;
   description: string;
   price: number;
@@ -16,14 +19,13 @@ export type ProductDto = {
   userId: string;
   title: string;
   image: string;
-  category: number;
+  category: Category;
   description: string;
   price: number;
   createdAt: string;
   updatedAt: string;
+  options: Option[];
 }
-
-const API_HOST = process.env.API_HOST || 'http://localhost:5000/api';
 
 class ProductService {
 
@@ -37,18 +39,22 @@ class ProductService {
     const formData = new FormData();
     formData.append('image', body.image);
     formData.append('userId', String(this.authStore.auth.id));
-    formData.append('category', String(body.category));
+    formData.append('categoryId', String(body.categoryId));
     formData.append('title', body.title);
     formData.append('description', body.description);
     formData.append('price', String(body.price));
 
     return axios.post<ProductRegistrationDto, ApiResponse<ProductDto>>(`${API_HOST}/products`, formData, {
-      headers: {'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' }
     });
   }
 
   async getAll(): Promise<ApiResponse<ProductDto[]>> {
     return axios.get(`${API_HOST}/products`);
+  }
+
+  async getAllByCategory(categoryId: number): Promise<ApiResponse<ProductDto[]>> {
+    return axios.get(`${API_HOST}/products?categoryId=${categoryId}`);
   }
 
   async getById(id: string): Promise<ApiResponse<ProductDto>> {

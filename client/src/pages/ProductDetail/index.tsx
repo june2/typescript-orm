@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { toJS } from 'mobx';
 import { STORES } from '~constants';
 import ProductsStore from '~stores/product/ProductStore';
 import BackTopBar from '~components/BackTopBar';
 import Footer from '~components/Footer';
 import { inject, observer } from 'mobx-react';
-import { getCategoryName } from '~pages/utils';
 import moment from 'moment';
 import 'moment/locale/ko';
 
@@ -19,8 +19,10 @@ function ProductDetail(props: ProductDetailProps) {
   }, []);
 
   const { detailProduct } = props[STORES.PRODUCTS_STORE];
-  const { image, category, title, price, createdAt, description } = detailProduct;
+  const { image, category, title, price, createdAt, description, options } = detailProduct;
   const time = moment(createdAt);
+  const categoryObj = toJS(category);
+  const optionArr = toJS(options);
 
   return (
     <>
@@ -37,7 +39,7 @@ function ProductDetail(props: ProductDetailProps) {
         </h4>
         <ul className="list-product-information">
           <li className="list-item category">
-            카테고리 <span>{getCategoryName(category)}</span>
+            카테고리 <span>{(categoryObj) ? categoryObj.title : ''}</span>
           </li>
           <li className="list-item date">
             상품 등록 시간{' '}
@@ -46,15 +48,14 @@ function ProductDetail(props: ProductDetailProps) {
             </span>
           </li>
           // 추가된 부분!
-          <li className="list-item car-model-year">
-            차량 연식 <span>3년</span>
-          </li>
-          <li className="list-item car-mileage">
-            주행 거리 <span>1,299km</span>
-          </li>
-          <li className="list-item car-smoking">
-            판매자 흡연 여부 <span>흡연자</span>
-          </li>
+          {(optionArr) ?
+            optionArr.map((item, i) => (
+              <li key={i} className="list-item">
+                {item.filter.detail} <span>{item.value}</span>
+              </li>)
+            )
+            : null
+          }
         </ul>
         <div className="description">{description}</div>
       </div>

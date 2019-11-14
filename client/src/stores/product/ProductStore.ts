@@ -13,7 +13,12 @@ class ProductsStore {
   @action
   async getAllProducts() {
     const response = await this.productService.getAll();
-    console.log(response.data.data);
+    this.setProducts(response.data.data);
+  }
+
+  @action
+  async getProductsByCategory(categoryId: number) {
+    const response = await this.productService.getAllByCategory(categoryId);
     this.setProducts(response.data.data);
   }
 
@@ -40,7 +45,6 @@ class ProductsStore {
 
   @action
   setDetailProduct(product: ProductDto) {
-    console.log("product", product);
     this.detailProduct = product;
   }
 }

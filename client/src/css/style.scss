@@ -234,10 +234,11 @@ footer {
   text-align: center;
 
   .btn-category {
-    padding: 4px 20px;
+    padding: 4px 20px;        
     border-radius: 100px;
     border: 1px solid $color-border;
     margin-bottom: 8px;
+    margin-right: 4px;
 
     @media (max-width: 767px) {
       padding: 2px 16px;

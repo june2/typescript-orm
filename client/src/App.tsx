@@ -16,10 +16,13 @@ import ProductRegistration from '~pages/ProductRegistration';
 import ProductDetail from '~pages/ProductDetail';
 import CarProductList from '~pages/CarProductList';
 
-@inject(STORES.AUTH_STORE)
+@inject(STORES.AUTH_STORE, STORES.CATEGORIES_STORE)
 @observer
 @autobind
 export default class App extends Component {
+  componentWillMount(): void {
+    this.props[STORES.CATEGORIES_STORE].getAllCategories();
+  }
   render() {
     return (
       <Router>
