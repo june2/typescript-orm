@@ -21,6 +21,17 @@ export type FilterDto = {
   title: string;
   desc: string;
   detail: string;
+  items: FilterItemDto[]
+}
+
+export type FilterItemDto = {
+  id: number;
+  type: string;
+  title: string;
+  desc: string;
+  value: number;
+  min: number;
+  max: number;
 }
 
 class FilterService {

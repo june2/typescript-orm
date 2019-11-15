@@ -17,6 +17,7 @@ interface InjectedProps {
 
 interface State {
   title: string;
+  categoryId: number,
 }
 
 @inject(STORES.PRODUCTS_STORE, STORES.CATEGORIES_STORE, STORES.FILTERS_STORE)
@@ -24,7 +25,8 @@ interface State {
 class ProductList extends Component<InjectedProps & RouteComponentProps & State> {
 
   state: State = {
-    title: ''
+    title: '',
+    categoryId: 0,
   }
 
   componentWillMount(): void {
@@ -32,13 +34,13 @@ class ProductList extends Component<InjectedProps & RouteComponentProps & State>
   }
 
   getAll(): void {
-    this.setState({ title: '중고 거래 제품' });
+    this.setState({ title: '중고 거래 제품', categoryId: 0 });
     this.props[STORES.PRODUCTS_STORE].getAllProducts();
     this.props[STORES.FILTERS_STORE].setIsVisible(false);
   }
 
   getAllByCategory(categoryId: number, category: string): void {
-    this.setState({ title: `중고 ${category} 목록` });
+    this.setState({ title: `중고 ${category} 목록`, categoryId: categoryId });
     this.props[STORES.PRODUCTS_STORE].getProductsByCategory(categoryId);
     this.props[STORES.FILTERS_STORE].getFilterByCategory(categoryId);
     this.props[STORES.FILTERS_STORE].setIsVisible(true);
@@ -54,15 +56,16 @@ class ProductList extends Component<InjectedProps & RouteComponentProps & State>
           <h5 className="container-headline">{this.state.title}</h5>
 
           <div className="categories-group">
-            <Link to={PAGE_PATHS.PRODUCT_LISTS} className="btn btn-category"
+            <Link to={PAGE_PATHS.PRODUCT_LISTS}
+              className={"btn btn-category " + ((this.state.categoryId === 0) ? " active" : "")}
               onClick={() => this.getAll()}>
               ALL
             </Link>
 
             {categries.map((item, i) =>
-              <Link key={i} to={PAGE_PATHS.PRODUCT_LISTS} className="btn btn-category"
-                onClick={() => this.getAllByCategory(item.id, item.title)}
-              >
+              <Link key={i} to={PAGE_PATHS.PRODUCT_LISTS}
+                className={"btn btn-category " + ((this.state.categoryId === item.id) ? " active" : "")}
+                onClick={() => this.getAllByCategory(item.id, item.title)}>
                 {item.title}
               </Link>)}
           </div>

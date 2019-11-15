@@ -3,9 +3,11 @@ import FilterService, { FilterDto } from '~services/FilterService';
 import autobind from 'autobind-decorator';
 
 @autobind
-class FilterStore {  
+class FilterStore {
   // topbar filter Icon 노출 여부
-  @observable isVisible: boolean = false; 
+  @observable isVisible: boolean = false;
+  // topbar filter active 여부
+  @observable isActive: boolean = false;
   // filter data
   @observable filters: FilterDto[] = [];
 
@@ -20,7 +22,9 @@ class FilterStore {
 
   @action
   setFilter(filters: FilterDto[]) {
-    this.filters = filters;
+    this.filters = filters;    
+    if (filters.length !== 0) this.isActive = true;
+    else this.isActive = false;
   }
 
   @action

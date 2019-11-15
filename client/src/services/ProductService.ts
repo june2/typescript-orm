@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_HOST } from '~constants';
 import { ApiResponse } from '~services/types';
 import { Category } from '~services/CategoryService';
-import { Option } from '~services/OptionService';
+import { Option, OptionDto } from '~services/OptionService';
 import AuthStore from '~stores/auth/AuthStore';
 
 export type ProductRegistrationDto = {
@@ -12,6 +12,7 @@ export type ProductRegistrationDto = {
   title: string;
   description: string;
   price: number;
+  options: OptionDto[];
 }
 
 export type ProductDto = {
@@ -43,6 +44,7 @@ class ProductService {
     formData.append('title', body.title);
     formData.append('description', body.description);
     formData.append('price', String(body.price));
+    formData.append('options', JSON.stringify(body.options));
 
     return axios.post<ProductRegistrationDto, ApiResponse<ProductDto>>(`${API_HOST}/products`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }

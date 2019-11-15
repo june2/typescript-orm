@@ -24,13 +24,21 @@ export const FilterItemInit = (sequelize: Sequelize) => {
       allowNull: true,
     },
     desc: {
-      type: new DataTypes.STRING(40),
+      type: new DataTypes.STRING(20),
       allowNull: true,
     },
     value: {
-      type: new DataTypes.STRING(20),
-      allowNull: false,
-    }
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+    },
+    min: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+    },
+    max: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+    },
   }, {
     sequelize,
     tableName: 'filter_items',

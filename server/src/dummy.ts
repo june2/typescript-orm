@@ -5,6 +5,10 @@ import { Filter } from './models/Filter';
 import { FilterItem } from './models/FilterItem';
 import { Option } from './models/Option';
 import { title, image, desc } from './dummy_desc';
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+// import { Sequelize } from 'sequelize/types';
+
 
 export const initData = async () => {
   const user = await User.create({ email: 'test@test.com', password: 'test123' })
@@ -28,12 +32,10 @@ export const initData = async () => {
   ]
   const filters = await Filter.bulkCreate(filtersData);
   const filterItemsData = [
-    { filterId: filters[0].id, tilte: '', value: '2010' },
-    { filterId: filters[0].id, tilte: '', value: '2020' },
-    { filterId: filters[1].id, tilte: '', value: '0' },
-    { filterId: filters[1].id, tilte: '', value: '10000' },
-    { filterId: filters[2].id, tilte: '흡연', desc: '예, 흡연자 입니다.', value: 'true' },
-    { filterId: filters[2].id, tilte: '비흡연', desc: '아니오, 비 흡연자 입니다.', value: 'false' },
+    { filterId: filters[0].id, tilte: '', desc: '년', min: 2010, max: 2020 },
+    { filterId: filters[1].id, tilte: '', min: 0, max: 10000 },
+    { filterId: filters[2].id, tilte: '흡연', desc: '예, 흡연자 입니다.', value: 1 },
+    { filterId: filters[2].id, tilte: '비흡연', desc: '아니오, 비 흡연자 입니다.', value: 0 },
   ]
   const filterItem = await FilterItem.bulkCreate(filterItemsData);
 
@@ -44,17 +46,38 @@ export const initData = async () => {
     { userId: user.id, categoryId: categoryId, title: title, price: 3000, image: image, description: desc },
   ]);
   const optionData = [
-    { productId: product[0].id, filterId: filters[0].id, value: '2014' },
-    { productId: product[0].id, filterId: filters[1].id, value: '10000' },
-    { productId: product[0].id, filterId: filters[2].id, value: 'true' },
+    { productId: product[0].id, filterId: filters[0].id, value: 2014 },
+    { productId: product[0].id, filterId: filters[1].id, value: 10000 },
+    { productId: product[0].id, filterId: filters[2].id, value: 1 },
 
-    { productId: product[1].id, filterId: filters[0].id, value: '2015' },
-    { productId: product[1].id, filterId: filters[1].id, value: '20000' },
-    { productId: product[1].id, filterId: filters[2].id, value: 'true' },
+    { productId: product[1].id, filterId: filters[0].id, value: 2015 },
+    { productId: product[1].id, filterId: filters[1].id, value: 20000 },
+    { productId: product[1].id, filterId: filters[2].id, value: true },
 
-    { productId: product[2].id, filterId: filters[0].id, value: '2014' },
-    { productId: product[2].id, filterId: filters[1].id, value: '20000' },
-    { productId: product[2].id, filterId: filters[2].id, value: 'false' },
+    { productId: product[2].id, filterId: filters[0].id, value: 2014 },
+    { productId: product[2].id, filterId: filters[1].id, value: 20000 },
+    { productId: product[2].id, filterId: filters[2].id, value: 0 },
   ]
   await Option.bulkCreate(optionData);
+
+  // const products = await Product.findAll({
+  //   include: [{
+  //     model: Option,
+  //     as: 'options',
+  //     where: {
+  //       [Op.or]: [
+  //         { [Op.and]: [{ filterId: 3 }, { value: 'true' }] },
+  //         { [Op.and]: [{ filterId: 1 }, { value: '2015' }] },
+  //       ]
+  //     },
+  //     // where: {
+  //     //   '$or': [
+  //     //     { '$and': [{ filterId: 3 }, { value: 'true' }] },
+  //     //     { '$and': [{ filterId: 1 }, { value: '2015' }] },
+  //     //   ]        
+  //     // },
+  //     required: true
+  //   }]
+  // });
+  // console.log(products.length);
 }

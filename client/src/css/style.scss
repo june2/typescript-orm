@@ -254,6 +254,11 @@ footer {
       box-shadow: none;
     }
   }
+  
+  .active {
+    color: $color-primary;
+    background-color: $color-background;
+  }
 }
 
 .list-products {

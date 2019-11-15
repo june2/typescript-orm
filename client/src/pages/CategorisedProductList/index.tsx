@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class CarProductList extends Component {
+class CategorisedProductList extends Component {
   render() {
     return (
       <>
@@ -13,4 +13,4 @@ class CarProductList extends Component {
   }
 }
 
-export default CarProductList;
+export default CategorisedProductList;

@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { API_HOST } from '~constants';
-import { ApiResponse } from '~services/types';
 import AuthStore from '~stores/auth/AuthStore';
 import { FilterDetail } from '~services/FilterService';
 
@@ -9,16 +6,14 @@ export interface Option {
   readonly filter: FilterDetail;
 }
 
-export type OptionDto = {
-  id: number;
-  value: string;
+export interface OptionDto {  
+  filterId: number;
+  value: number;
 }
 
 class OptionService {
-
   constructor(private authStore: AuthStore) {
   }
-
 }
 
 export default OptionService;

@@ -22,7 +22,8 @@ function FixedTopBar(props: InjectProps) {
         <ul className="navbar-nav ml-auto">
           {props[STORES.FILTERS_STORE].isVisible ?
             (<li className="nav-item">
-              <button className="btn-filter active" data-toggle="modal" data-target="#section-filter">
+              <button className={"btn-filter " + ((props[STORES.FILTERS_STORE].isActive) ? "active" : "")}
+                data-toggle="modal" data-target="#section-filter">
                 <i className="material-icons ic-filter">filter_list</i>
               </button>
             </li>) :

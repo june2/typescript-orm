@@ -53,12 +53,18 @@ router.get('/:id', async (req, res) => {
 router.post('', upload.single('image'), async (req, res) => {
   const image = req.file;
   const product = req.body;
+  const options: Option[] = JSON.parse(product.options); 
 
   try {
+    // save product 
     const insertedProduct = await Product.create({
       ...product,
       image: `/${image.path}`,
     });
+    // save product options
+    options.map(i => i.productId = insertedProduct.id);    
+    await Option.bulkCreate(options);
+    
     return res.json({ data: insertedProduct, msg: '상품등록에 성공하였습니다.' });
   } catch (e) {
     return res.status(500).json({ msg: e.message });
