@@ -20,7 +20,7 @@ import CategorisedProductList from '~pages/CategorisedProductList';
 @observer
 @autobind
 export default class App extends Component {
-  componentWillMount(): void {
+  componentDidMount(): void {
     this.props[STORES.CATEGORIES_STORE].getAllCategories();
   }
   render() {

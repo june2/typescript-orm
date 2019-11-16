@@ -8,6 +8,8 @@ class FilterStore {
   @observable isVisible: boolean = false;
   // topbar filter active 여부
   @observable isActive: boolean = false;
+  // filter modal open 여부
+  @observable isModalOpen: boolean = false;
   // filter data
   @observable filters: FilterDto[] = [];
 
@@ -23,13 +25,18 @@ class FilterStore {
   @action
   setFilter(filters: FilterDto[]) {
     this.filters = filters;    
-    if (filters.length !== 0) this.isActive = true;
-    else this.isActive = false;
+    if (filters.length !== 0) this.isVisible = true;
+    else this.isVisible = false;
   }
 
   @action
-  setIsVisible(isVisible: boolean) {
-    this.isVisible = isVisible;
+  setIsActive(isActive: boolean) {
+    this.isActive = isActive;
+  }
+
+  @action
+  setIsModalOpen(isModalOpen: boolean) {
+    this.isModalOpen = isModalOpen;
   }
 }
 
