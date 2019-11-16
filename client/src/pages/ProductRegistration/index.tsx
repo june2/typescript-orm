@@ -133,8 +133,8 @@ const ProductRegistration = inject(STORES.PRODUCTS_STORE, STORES.CATEGORIES_STOR
                     {arr.map((item, i) =>
                       <div key={i} className="form-check form-check-inline form-check-nonsmoking">
                         <input onChange={() => setOption(obj.id, item.value)}
-                          className="form-check-input" type="radio" name="smokingOptions" id="inlineNonSmoker" />
-                        <label className="form-check-label non-smoker" htmlFor="inlineNonSmoker">{item.desc}</label>
+                          className="form-check-input" type="radio" name={`${obj.id}`} id={`${item.value}`} />
+                        <label className="form-check-label non-smoker" htmlFor={`${item.value}`}>{item.desc}</label>
                       </div>
                     )}
                   </div>)

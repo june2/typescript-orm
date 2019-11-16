@@ -35,14 +35,16 @@ class ProductList extends Component<InjectedProps & RouteComponentProps & State>
 
   getAll(): void {
     this.setState({ title: '중고 거래 제품', categoryId: 0 });
-    this.props[STORES.PRODUCTS_STORE].getAllProducts();    
+    this.props[STORES.PRODUCTS_STORE].getAllProducts();
+    this.props[STORES.FILTERS_STORE].setIsVisible(false);
   }
 
   getAllByCategory(categoryId: number, category: string): void {
     this.setState({ title: `중고 ${category} 목록`, categoryId: categoryId });
     this.props[STORES.PRODUCTS_STORE].getProductsByCategory(categoryId);
-    this.props[STORES.FILTERS_STORE].getFilterByCategory(categoryId);    
+    this.props[STORES.FILTERS_STORE].getFilterByCategory(categoryId);
     this.props[STORES.CATEGORIES_STORE].setTitle(category);
+    this.props[STORES.CATEGORIES_STORE].setCategoryId(categoryId);
   }
 
   render() {
@@ -50,7 +52,6 @@ class ProductList extends Component<InjectedProps & RouteComponentProps & State>
     const { categries } = this.props[STORES.CATEGORIES_STORE];
     return (
       <>
-        // @ts-ignore
         <FixedTopBar />
         <div className="container container-main-index">
           <h5 className="container-headline">{this.state.title}</h5>

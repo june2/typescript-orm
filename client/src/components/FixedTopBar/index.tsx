@@ -14,8 +14,7 @@ type InjectProps = {
 
 function FixedTopBar(props: InjectProps) {
   return (
-    <nav className="navbar nav-global fixed-top navbar-expand-sm">
-      // @ts-ignore
+    <nav className="navbar nav-global fixed-top navbar-expand-sm">      
       <FilterBox />
       <div className="container">
         <Link to={PAGE_PATHS.PRODUCT_LISTS}>

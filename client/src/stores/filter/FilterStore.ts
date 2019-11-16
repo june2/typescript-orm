@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import FilterService, { FilterDto } from '~services/FilterService';
+import { OptionDto } from '~services/OptionService';
 import autobind from 'autobind-decorator';
 
 @autobind
@@ -12,6 +13,8 @@ class FilterStore {
   @observable isModalOpen: boolean = false;
   // filter data
   @observable filters: FilterDto[] = [];
+  // 검색 조건 설정
+  @observable conditions: OptionDto[] = [];
 
   constructor(private filterService: FilterService) {
   }
@@ -24,7 +27,7 @@ class FilterStore {
 
   @action
   setFilter(filters: FilterDto[]) {
-    this.filters = filters;    
+    this.filters = filters;
     if (filters.length !== 0) this.isVisible = true;
     else this.isVisible = false;
   }
@@ -35,8 +38,18 @@ class FilterStore {
   }
 
   @action
+  setIsVisible(isVisible: boolean) {
+    this.isVisible = isVisible;
+  }
+
+  @action
   setIsModalOpen(isModalOpen: boolean) {
     this.isModalOpen = isModalOpen;
+  }
+
+  @action
+  setConditions(conditions: OptionDto[]) {
+    this.conditions = conditions;
   }
 }
 

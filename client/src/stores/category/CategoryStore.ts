@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 @autobind
 class CategoryStore {
   @observable categries: CategoryDto[] = [];
+  @observable categoryId: number = 0;
   @observable title: string = '';
 
   constructor(private categoryService: CategoryService) {
@@ -19,6 +20,11 @@ class CategoryStore {
   @action
   setCategories(categries: CategoryDto[]) {
     this.categries = categries;
+  }
+
+  @action
+  setCategoryId(categoryId: number) {
+    this.categoryId = categoryId;
   }
 
   @action

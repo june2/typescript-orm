@@ -55,8 +55,8 @@ class ProductService {
     return axios.get(`${API_HOST}/products`);
   }
 
-  async getAllByCategory(categoryId: number): Promise<ApiResponse<ProductDto[]>> {
-    return axios.get(`${API_HOST}/products?categoryId=${categoryId}`);
+  async getAllByCategory(categoryId: number, filter: string = ''): Promise<ApiResponse<ProductDto[]>> {
+    return axios.get(`${API_HOST}/products?categoryId=${categoryId}${filter !== '' ? `&filter=${filter}` : ''}`);
   }
 
   async getById(id: string): Promise<ApiResponse<ProductDto>> {

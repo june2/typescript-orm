@@ -33,7 +33,7 @@ export const initData = async () => {
   const filters = await Filter.bulkCreate(filtersData);
   const filterItemsData = [
     { filterId: filters[0].id, tilte: '', desc: '년', min: 2010, max: 2020 },
-    { filterId: filters[1].id, tilte: '', min: 0, max: 10000 },
+    { filterId: filters[1].id, tilte: '', desc: 'km', min: 0, max: 10000 },
     { filterId: filters[2].id, tilte: '흡연', desc: '예, 흡연자 입니다.', value: 1 },
     { filterId: filters[2].id, tilte: '비흡연', desc: '아니오, 비 흡연자 입니다.', value: 0 },
   ]

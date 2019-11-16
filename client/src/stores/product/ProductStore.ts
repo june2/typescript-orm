@@ -1,5 +1,6 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import ProductService, { ProductDto, ProductRegistrationDto } from '~services/ProductService';
+import { OptionDto } from '~services/OptionService';
 import autobind from 'autobind-decorator';
 
 @autobind
@@ -17,8 +18,12 @@ class ProductsStore {
   }
 
   @action
-  async getProductsByCategory(categoryId: number) {
-    const response = await this.productService.getAllByCategory(categoryId);
+  async getProductsByCategory(categoryId: number, options: OptionDto[] = []) {
+    let filter: string = '';
+    if (options.length > 0) {
+      filter = JSON.stringify(toJS(options));
+    }
+    const response = await this.productService.getAllByCategory(categoryId, filter);
     this.setProducts(response.data.data);
   }
 
