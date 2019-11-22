@@ -9,6 +9,7 @@ import productRouter from './routes/product';
 import categoryRouter from './routes/category';
 import filterRouter from './routes/filter';
 import logger from './logger';
+import config from './config';
 import { initData } from './dummy';
 
 const stopServer = async (server: http.Server, sequelize: Sequelize, signal?: string) => {
@@ -27,28 +28,27 @@ async function runServer() {
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
-  app.use('/api/categories', categoryRouter);  
-  app.use('/api/filters', filterRouter); 
+  app.use('/api/categories', categoryRouter);
+  app.use('/api/filters', filterRouter);
   app.get('/uploads/:fileName', (req, res) => {
     const fileName = req.params.fileName
-    console.log(fileName)
     res.sendFile(path.join(__dirname, `../uploads/${fileName}`));
   });
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
   });
 
-  const server = app.listen(5000, () => {
-    logger.info('Example app listening on port 5000!');
+  const server = app.listen(config.server.port, () => {
+    logger.info(`app listening on port ${config.server.port}!`);
   });
 
   try {
     await sequelize.authenticate();
     await sequelize.sync({
-      // force: true
+      force: (config.server.env === 'DEV') ? true : false
     });
     // Save dummy data 
-    // await initData();
+    if((config.server.env === 'DEV')) await initData();    
   } catch (e) {
     stopServer(server, sequelize);
     throw e;

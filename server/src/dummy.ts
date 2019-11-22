@@ -7,7 +7,6 @@ import { Option } from './models/Option';
 import { title, image, desc } from './dummy_desc';
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-// import { Sequelize } from 'sequelize/types';
 
 
 export const initData = async () => {
