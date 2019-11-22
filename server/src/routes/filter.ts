@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
     },
     include: [{
       model: FilterItem,
-      attributes: ['title', 'desc', 'value', 'min', 'max'],
+      attributes: ['id', 'title', 'desc', 'value', 'min', 'max'],
       as: 'items',
     }]
   })

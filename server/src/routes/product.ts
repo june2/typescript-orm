@@ -4,48 +4,76 @@ import { Category } from '../models/Category';
 import { Option } from '../models/Option';
 import { Filter } from '../models/Filter';
 import * as multer from 'multer';
+import e = require('express');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 
+// TODO: 조건 설정 필터 리팩토링 필요 (유틸화), 예외 처리 필요
+const convertFilter = (query: any) => {
+  let where = {}; // 조건
+  let filter = {}; // sub 조건
+  let hasFilter = false;
+  if (query.filter) {
+    let arr: any[] = [];
+    let options = JSON.parse(query.filter);
+    options.forEach((o: any) => {
+      if (o.type === 'RANGE') {
+        arr.push({
+          [Op.and]: {
+            filterId: o.filterId,
+            value: { [Op.between]: [o.value.min, o.value.max] }
+          }
+        });
+      } else {
+        delete o.type
+        arr.push({ [Op.and]: o });
+      }
+    });
+    filter = {
+      [Op.or]: arr
+    }
+    hasFilter = true;
+    delete query.filter;
+  }
+  where = Object.assign(where, query);
+  return { where: where, filter: filter, hasFilter: hasFilter }
+}
+
 router.get('', async (req, res) => {
   try {
-    // TODO: 조건 설정 필터 리팩토링 필요 (유틸화)
     // 조건 설정
-    let where = {};
-    let filter = {};
-    if (req.query) {
-      if (req.query.filter) {
-        let arr: any[] = [];
-        let temp = JSON.parse(req.query.filter);
-        temp.forEach((o: any) => {
-          arr.push({ [Op.and]: o });
-        });
-        filter = {
-          [Op.or]: arr
-        }
-        delete req.query.filter;
-      }
-      where = Object.assign(where, req.query);
-    }
+    const { where, filter, hasFilter } = convertFilter(req.query);    
+    let products = [];
     // 조회
-    const products = await Product.findAll({
-      where: where,
-      include: [{
-        model: Category,
-        attributes: ['title'],
-        as: 'category',
-      }, {
-        model: Option,
-        as: 'options',
-        where: filter,
-        required: true
-      }]
-    });
+    if (hasFilter) { // filter 적용
+      products = await Product.findAll({
+        where: where,
+        include: [{
+          model: Category,
+          attributes: ['title'],
+          as: 'category',
+        }, {
+          model: Option,
+          as: 'options',
+          where: filter,
+          required: true
+        }]
+      });
+    } else {
+      products = await Product.findAll({
+        where: where,
+        include: [{
+          model: Category,
+          attributes: ['title'],
+          as: 'category',
+        }]
+      });
+    }
     res.json({ data: products });
-  } catch (e) {
+  } catch (e) {    
     return res.status(500).json({ msg: e.message });
   }
 });

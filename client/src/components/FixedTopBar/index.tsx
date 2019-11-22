@@ -14,8 +14,7 @@ type InjectProps = {
 
 function FixedTopBar(props: InjectProps) {
   return (
-    <nav className="navbar nav-global fixed-top navbar-expand-sm">      
-      <FilterBox />
+    <nav className="navbar nav-global fixed-top navbar-expand-sm">            
       <div className="container">
         <Link to={PAGE_PATHS.PRODUCT_LISTS}>
           <img className="img-brand" alt="당근마켓" width="132"
@@ -24,6 +23,7 @@ function FixedTopBar(props: InjectProps) {
         <ul className="navbar-nav ml-auto">
           {props[STORES.FILTERS_STORE].isVisible ?
             (<li className="nav-item">
+              <FilterBox />
               <button
                 onClick={() => props[STORES.FILTERS_STORE].setIsModalOpen(true)}
                 className={"btn-filter " + ((props[STORES.FILTERS_STORE].isActive) ? "active" : "")}

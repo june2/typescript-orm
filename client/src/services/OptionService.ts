@@ -3,12 +3,14 @@ import { FilterDetail } from '~services/FilterService';
 
 export interface Option {
   readonly value: string;
+  readonly type: string;
   readonly filter: FilterDetail;
 }
 
-export interface OptionDto {  
+export interface OptionDto {
   filterId: number;
-  value: number;
+  type?: string;
+  value: any;
 }
 
 class OptionService {
