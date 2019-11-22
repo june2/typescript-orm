@@ -7,6 +7,6 @@ export default {
   },
   server: {
     env: process.env.NODE_ENV,
-    port: process.env.port || 5000
+    port: process.env.PORT || 5000
   },
 };
