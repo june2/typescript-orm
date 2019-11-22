@@ -139,9 +139,15 @@ function FilterBox(props: InjectProps) {
               return (
                 <div key={i} className="form-group filter-car-mileage">
                   <label>{obj.title}</label>
-                  <Range allowCross={false} min={item.min} max={item.max}
-                    defaultValue={[getRange(obj.id, item.min, 'min'), getRange(obj.id, item.max, 'max')]}
-                    step={1} onChange={(val: any) => changeRange(obj.id, val, i)} />
+                  <div style={{ padding: 6 }}>
+                    <Range
+                      trackStyle={[{ backgroundColor: '#FFC13D', height: 10 }]}
+                      handleStyle={[{ backgroundColor: '#ff8a3d', height: 20, width: 20, border: 'none' }, { backgroundColor: '#ff8a3d', height: 20, width: 20, border: 'none' }]}
+                      railStyle={{ height: 10 }}
+                      allowCross={false} min={item.min} max={item.max}
+                      defaultValue={[getRange(obj.id, item.min, 'min'), getRange(obj.id, item.max, 'max')]}
+                      step={1} onChange={(val: any) => changeRange(obj.id, val, i)} />
+                  </div>
                   <small className="text-muted">{min[i] + item.desc}부터 {max[i] + item.desc}까지</small>
                 </div>
               )
