@@ -24,7 +24,7 @@ async function runServer() {
   const app = express();
 
   app.use(express.json());
-  app.use(cors());
+  app.use(cors({ origin: config.server.host }));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
@@ -44,11 +44,12 @@ async function runServer() {
 
   try {
     await sequelize.authenticate();
+    console.log(config.server.env);
     await sequelize.sync({
-      force: (config.server.env === 'DEV') ? true : false
+      force: (config.server.env === 'dev') ? true : false
     });
     // Save dummy data 
-    if((config.server.env === 'DEV')) await initData();    
+    if ((config.server.env === 'dev')) await initData();
   } catch (e) {
     stopServer(server, sequelize);
     throw e;
