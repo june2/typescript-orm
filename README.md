@@ -1,4 +1,7 @@
 ### 문제해결 전략
+- heroku 작업물 배포
+  - https://danggun.herokuapp.com
+  - 미국리전 반응속도느림
 - ERD
 ![image](https://user-images.githubusercontent.com/5827617/69479541-b88af900-0e41-11ea-8983-76ef53988787.png)
 
