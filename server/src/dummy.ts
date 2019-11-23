@@ -51,7 +51,7 @@ export const initData = async () => {
 
     { productId: product[1].id, filterId: filters[0].id, value: 2015 },
     { productId: product[1].id, filterId: filters[1].id, value: 20000 },
-    { productId: product[1].id, filterId: filters[2].id, value: true },
+    { productId: product[1].id, filterId: filters[2].id, value: 1 },
 
     { productId: product[2].id, filterId: filters[0].id, value: 2014 },
     { productId: product[2].id, filterId: filters[1].id, value: 20000 },

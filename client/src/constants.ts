@@ -14,4 +14,5 @@ export enum PAGE_PATHS {
   PRODUCT_REGISTRATION = "/products-registration"
 }
 
-export const API_HOST = process.env.API_HOST + '/api' || 'http://localhost:5000/api';
+const host = process.env.API_HOST || 'http://localhost:5000';
+export const API_HOST = `${host}/api`;

@@ -48,6 +48,7 @@ function ProductDetail(props: ProductDetailProps) {
             </span>
           </li>
           // 추가된 부분!
+          // TODO: option item value 관련 테이블 재설계 필요!          
           {(optionArr) ?
             optionArr.map((item, i) => (
               <li key={i} className="list-item">

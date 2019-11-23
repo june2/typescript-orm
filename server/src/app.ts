@@ -43,13 +43,12 @@ async function runServer() {
   });
 
   try {
-    await sequelize.authenticate();
-    console.log(config.server.env);
+    await sequelize.authenticate();    
     await sequelize.sync({
-      force: (config.server.env === 'dev') ? true : false
+      force: (config.server.env === 'reset') ? true : false
     });
     // Save dummy data 
-    if ((config.server.env === 'dev')) await initData();
+    if ((config.server.env === 'reset')) await initData();
   } catch (e) {
     stopServer(server, sequelize);
     throw e;
