@@ -26,6 +26,15 @@ async function runServer() {
   app.use(express.json());
   app.use(cors({ origin: config.server.host }));
   app.use(express.static(path.join(__dirname, 'public')));
+  // redirect https
+  app.use((req, res, next) => {
+    const host: string = req.header('host') || '';    
+    if (!host.includes('localhost') && req.header('x-forwarded-proto') !== 'https') {
+      res.redirect(`https://${host}${req.url}`)
+    } else {
+      next();
+    }
+  });
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
   app.use('/api/categories', categoryRouter);
