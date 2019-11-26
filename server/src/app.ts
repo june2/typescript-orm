@@ -24,17 +24,8 @@ async function runServer() {
   const app = express();
 
   app.use(express.json());
-  app.use(cors({ origin: config.server.host }));
-  app.use(express.static(path.join(__dirname, 'public')));
-  // redirect https
-  app.use((req, res, next) => {
-    const host: string = req.header('host') || '';    
-    if (!host.includes('localhost') && req.header('x-forwarded-proto') !== 'https') {
-      res.redirect(`https://${host}${req.url}`)
-    } else {
-      next();
-    }
-  });
+  app.use(cors({ origin: config.server.white_list }));
+  app.use(express.static(path.join(__dirname, 'public')));  
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
   app.use('/api/categories', categoryRouter);
@@ -52,7 +43,7 @@ async function runServer() {
   });
 
   try {
-    await sequelize.authenticate();    
+    await sequelize.authenticate();
     await sequelize.sync({
       force: (config.server.env === 'reset') ? true : false
     });
